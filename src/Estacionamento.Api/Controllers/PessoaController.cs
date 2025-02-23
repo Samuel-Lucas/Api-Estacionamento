@@ -1,3 +1,5 @@
+using Estacionamento.Domain.Interfaces;
+using Estacionamento.Domain.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estacionamento.Api.Controllers;
@@ -5,10 +7,12 @@ namespace Estacionamento.Api.Controllers;
 public class PessoaController : ControllerBase
 {
     private readonly ILogger<PessoaController> _logger;
+    private readonly IPessoaUseCases _pessoaUseCases;
 
-    public PessoaController(ILogger<PessoaController> logger)
+    public PessoaController(ILogger<PessoaController> logger, IPessoaUseCases pessoaUseCases)
     {
         _logger = logger;
+        _pessoaUseCases = pessoaUseCases;
     }
 
     [HttpGet]
@@ -16,9 +20,9 @@ public class PessoaController : ControllerBase
     [ProducesResponseType((204))]
     [ProducesResponseType((400))]
     [ProducesResponseType((401))]
-    public IActionResult Get()
+    public async Task<IActionResult> Get()
     {
-        return Ok(_personService.FindAll());
+        return Ok(await _pessoaUseCases.ObterPessoasUseCaseAsync());
     }
 
     [HttpGet("{id}")]
@@ -26,9 +30,9 @@ public class PessoaController : ControllerBase
     [ProducesResponseType((204))]
     [ProducesResponseType((400))]
     [ProducesResponseType((401))]
-    public IActionResult Get(long id)
+    public async Task<IActionResult> Get(string id)
     {
-        var person = _personService.FindById(id);
+        var person = await _pessoaUseCases.ObterPessoaUseCaseAsync(id);
         if (person is null) return NotFound();
         return Ok(person);
     }
@@ -37,30 +41,29 @@ public class PessoaController : ControllerBase
     [ProducesResponseType((200))]
     [ProducesResponseType((400))]
     [ProducesResponseType((401))]
-    public IActionResult Post([FromBody] PersonVO person)
+    public IActionResult Post([FromBody] Pessoa pessoa)
     {
-        if (person is null) return BadRequest();
-        return Ok(_personService.Create(person));
+        if (pessoa is null) return BadRequest();
+        return Ok(_pessoaUseCases.AdicionarPessoaUseCaseAsync(pessoa));
     }
 
     [HttpPut]
     [ProducesResponseType((200))]
     [ProducesResponseType((400))]
     [ProducesResponseType((401))]
-    [TypeFilter(typeof(HyperMediaFilter))]
-    public IActionResult Put([FromBody] PersonVO person)
+    public IActionResult Put([FromBody] Pessoa pessoa)
     {
-        if (person is null) return BadRequest();
-        return Ok(_personService.Update(person));
+        if (pessoa is null) return BadRequest();
+        return Ok(_pessoaUseCases.AtualizarPessoaUseCaseAsync(pessoa));
     }
 
     [HttpDelete("{id}")]
     [ProducesResponseType((204))]
     [ProducesResponseType((400))]
     [ProducesResponseType((401))]
-    public IActionResult Delete(long id)
+    public IActionResult Delete(string id)
     {
-        _personService.Delete(id);
+        _pessoaUseCases.DeletarPessoaUseCaseAsync(id);
         return NoContent();
     }
 }
