@@ -1,6 +1,0 @@
-@Estacionamento.Api_HostAddress = http://localhost:5122
-
-GET {{Estacionamento.Api_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
