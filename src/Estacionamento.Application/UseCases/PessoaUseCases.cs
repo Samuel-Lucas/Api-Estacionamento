@@ -27,7 +27,6 @@ public class PessoaUseCases : IPessoaUseCases
         if (consultaPessoa is null) return;
 
         await _pessoaRepository.AtualizarPessoaRepositoryAsync(pessoa);
-
     }
 
     public async Task DeletarPessoaUseCaseAsync(string idPessoa)
