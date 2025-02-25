@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Estacionamento.Api.Controllers;
 
+[ApiController]
+[Route("api/[controller]/v1")]
 public class PessoaController : ControllerBase
 {
     private readonly ILogger<PessoaController> _logger;

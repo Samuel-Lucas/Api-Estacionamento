@@ -27,13 +27,12 @@ public class PessoaUseCases : IPessoaUseCases
         if (consultaPessoa is null) return;
 
         await _pessoaRepository.AtualizarPessoaRepositoryAsync(pessoa);
-
     }
 
     public async Task DeletarPessoaUseCaseAsync(string idPessoa)
     {
-        var consultaPessoa = ObterPessoaUseCaseAsync(idPessoa).Result;
-        if (consultaPessoa is null) return;
-        await _pessoaRepository.DeletarPessoaRepositoryAsync(idPessoa);
+        var resultadoPessoa = ObterPessoaUseCaseAsync(idPessoa).Result;
+        if (resultadoPessoa is null) return;
+        await _pessoaRepository.DeletarPessoaRepositoryAsync(resultadoPessoa);
     }
 }

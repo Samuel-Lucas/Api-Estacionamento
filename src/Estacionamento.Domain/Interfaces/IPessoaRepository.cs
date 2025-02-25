@@ -7,6 +7,6 @@ public interface IPessoaRepository
     Task<IEnumerable<Pessoa>> ObterPessoasRepositoryAsync();
     Task<Pessoa?> ObterPessoaRepositoryAsync(string id);
     Task<Pessoa> AdicionarPessoaRepositoryAsync(Pessoa pessoa);
-    Task DeletarPessoaRepositoryAsync(string idPessoa);
+    Task DeletarPessoaRepositoryAsync(Pessoa pessoa);
     Task AtualizarPessoaRepositoryAsync(Pessoa pessoa);
 }
