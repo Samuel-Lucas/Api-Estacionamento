@@ -1,6 +1,7 @@
 using Estacionamento.Domain.Interfaces;
 using Estacionamento.Domain.Models.Entities;
 using Estacionamento.Infrastructure.Data.Context;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Estacionamento.Infrastructure.Repository;
@@ -19,7 +20,6 @@ public class PessoaRepository : IPessoaRepository
         try
         {
             var pessoas = await _context.Pessoas!.ToListAsync();
-
             return pessoas;
         } catch (Exception e)
         {
@@ -32,7 +32,6 @@ public class PessoaRepository : IPessoaRepository
         try
         {
             var pessoa = await _context.Pessoas!.FirstOrDefaultAsync(s => s.IdPessoa == id);
-
             return pessoa!;
         } catch (Exception e)
         {
@@ -46,7 +45,7 @@ public class PessoaRepository : IPessoaRepository
         {
             pessoa.IdPessoa = Guid.NewGuid().ToString();
             pessoa.Role = "User";
-            pessoa.Senha = pessoa.Senha;
+            pessoa.Senha = HashPassword(pessoa.Senha);
             
             await _context.Pessoas!.AddAsync(pessoa);
             await _context.SaveChangesAsync();
@@ -83,5 +82,11 @@ public class PessoaRepository : IPessoaRepository
         {
             throw new Exception($"Erro ao tentar remover pessoade id {pessoa.IdPessoa}, {e.Message}");
         }
+    }
+
+    private string HashPassword(string senha)
+    {
+        var hasher = new PasswordHasher<object>();
+        return hasher.HashPassword(null!, senha);
     }
 }
