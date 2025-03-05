@@ -1,4 +1,6 @@
+using System.Threading.Tasks;
 using Estacionamento.Domain.Interfaces;
+using Estacionamento.Domain.Models.DTO;
 using Estacionamento.Domain.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,10 +45,12 @@ public class PessoaController : ControllerBase
     [ProducesResponseType((200))]
     [ProducesResponseType((400))]
     [ProducesResponseType((401))]
-    public IActionResult Post([FromBody] Pessoa pessoa)
+    public async Task<IActionResult> Post([FromBody] PessoaDTO pessoa)
     {
         if (pessoa is null) return BadRequest();
-        return Ok(_pessoaUseCases.AdicionarPessoaUseCaseAsync(pessoa));
+
+        await _pessoaUseCases.AdicionarPessoaUseCaseAsync(pessoa);
+        return Created();
     }
 
     [HttpPut]
