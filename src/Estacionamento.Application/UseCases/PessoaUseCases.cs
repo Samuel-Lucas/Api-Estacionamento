@@ -1,4 +1,5 @@
 using Estacionamento.Domain.Interfaces;
+using Estacionamento.Domain.Models.DTO;
 using Estacionamento.Domain.Models.Entities;
 
 namespace Estacionamento.Application.UseCases;
@@ -18,7 +19,7 @@ public class PessoaUseCases : IPessoaUseCases
     public async Task<Pessoa?> ObterPessoaUseCaseAsync(string id)
         => await _pessoaRepository.ObterPessoaRepositoryAsync(id);
 
-    public async Task<Pessoa> AdicionarPessoaUseCaseAsync(Pessoa pessoa)
+    public async Task AdicionarPessoaUseCaseAsync(PessoaDTO pessoa)
         => await _pessoaRepository.AdicionarPessoaRepositoryAsync(pessoa);
 
     public async Task AtualizarPessoaUseCaseAsync(Pessoa pessoa)

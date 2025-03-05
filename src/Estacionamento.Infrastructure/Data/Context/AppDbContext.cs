@@ -9,8 +9,8 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<Pessoa>? Pessoas { get; set; }
-    public DbSet<Veiculo>? Veiculos { get; set; }
+    public DbSet<Pessoa> Pessoas { get; set; }
+    public DbSet<Veiculo> Veiculos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

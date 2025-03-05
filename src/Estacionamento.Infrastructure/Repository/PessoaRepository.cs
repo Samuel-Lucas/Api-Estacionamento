@@ -1,4 +1,5 @@
 using Estacionamento.Domain.Interfaces;
+using Estacionamento.Domain.Models.DTO;
 using Estacionamento.Domain.Models.Entities;
 using Estacionamento.Infrastructure.Data.Context;
 using Microsoft.AspNetCore.Identity;
@@ -39,18 +40,22 @@ public class PessoaRepository : IPessoaRepository
         }
     }
 
-    public async Task<Pessoa> AdicionarPessoaRepositoryAsync(Pessoa pessoa)
+    public async Task AdicionarPessoaRepositoryAsync(PessoaDTO pessoa)
     {
         try
         {
-            pessoa.IdPessoa = Guid.NewGuid().ToString();
-            pessoa.Role = "User";
-            pessoa.Senha = HashPassword(pessoa.Senha);
-            
-            await _context.Pessoas!.AddAsync(pessoa);
-            await _context.SaveChangesAsync();
+            var pessoaEntity = new Pessoa
+            (
+                pessoa.Nome,
+                pessoa.SobreNome,
+                pessoa.Email,
+                HashPassword(pessoa.Senha),
+                pessoa.Telefone,
+                "User"
+            );
 
-            return pessoa;
+            _context.Pessoas!.Add(pessoaEntity);
+            await _context.SaveChangesAsync();
         } catch (Exception e)
         {
             throw new Exception($"Ocorre um erro ao cadastrar a pessoa: {e.Message}");
