@@ -42,7 +42,8 @@ public class PessoaController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType((200))]
+    [ProducesResponseType((201))]
+    [ProducesResponseType((204))]
     [ProducesResponseType((400))]
     [ProducesResponseType((401))]
     public async Task<IActionResult> Post([FromBody] PessoaDTO pessoa)
@@ -54,22 +55,24 @@ public class PessoaController : ControllerBase
     }
 
     [HttpPut]
-    [ProducesResponseType((200))]
+    [ProducesResponseType((204))]
     [ProducesResponseType((400))]
     [ProducesResponseType((401))]
-    public IActionResult Put([FromBody] Pessoa pessoa)
+    public async Task<IActionResult> Put([FromBody] PessoaUpdateDTO pessoa)
     {
         if (pessoa is null) return BadRequest();
-        return Ok(_pessoaUseCases.AtualizarPessoaUseCaseAsync(pessoa));
+
+        await _pessoaUseCases.AtualizarPessoaUseCaseAsync(pessoa);
+        return NoContent();
     }
 
     [HttpDelete("{id}")]
     [ProducesResponseType((204))]
     [ProducesResponseType((400))]
     [ProducesResponseType((401))]
-    public IActionResult Delete(string id)
+    public async Task<IActionResult> Delete(string id)
     {
-        _pessoaUseCases.DeletarPessoaUseCaseAsync(id);
+        await _pessoaUseCases.DeletarPessoaUseCaseAsync(id);
         return NoContent();
     }
 }
