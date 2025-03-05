@@ -10,5 +10,5 @@ public interface IPessoaUseCases
     Task<PessoaViewModel?> ObterPessoaUseCaseAsync(string id);
     Task AdicionarPessoaUseCaseAsync(PessoaDTO pessoa);
     Task DeletarPessoaUseCaseAsync(string idPessoa);
-    Task AtualizarPessoaUseCaseAsync(Pessoa pessoa);
+    Task AtualizarPessoaUseCaseAsync(PessoaUpdateDTO pessoa);
 }

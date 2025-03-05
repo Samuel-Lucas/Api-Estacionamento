@@ -67,7 +67,6 @@ public class PessoaRepository : IPessoaRepository
         try
         {
             _context.Entry(pessoa).State = EntityState.Modified;
-            _context.Entry(pessoa).Property(x => x.Senha).IsModified = false;
             await _context.SaveChangesAsync();
         }
         catch (Exception e)

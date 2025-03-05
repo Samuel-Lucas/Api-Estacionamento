@@ -38,12 +38,19 @@ public class PessoaUseCases : IPessoaUseCases
     public async Task AdicionarPessoaUseCaseAsync(PessoaDTO pessoa)
         => await _pessoaRepository.AdicionarPessoaRepositoryAsync(pessoa);
 
-    public async Task AtualizarPessoaUseCaseAsync(Pessoa pessoa)
+    public async Task AtualizarPessoaUseCaseAsync(PessoaUpdateDTO pessoa)
     {
-        var consultaPessoa = ObterPessoaUseCaseAsync(pessoa.IdPessoa).Result;
+        var consultaPessoa = await _pessoaRepository.ObterPessoaRepositoryAsync(pessoa.IdPessoa);
         if (consultaPessoa is null) return;
 
-        await _pessoaRepository.AtualizarPessoaRepositoryAsync(pessoa);
+        // A Refatorar
+        consultaPessoa.IdPessoa = pessoa.IdPessoa;
+        consultaPessoa.Nome = pessoa.Nome;
+        consultaPessoa.SobreNome = pessoa.SobreNome;
+        consultaPessoa.Email = pessoa.Email;
+        consultaPessoa.Telefone = pessoa.Telefone;
+
+        await _pessoaRepository.AtualizarPessoaRepositoryAsync(consultaPessoa);
     }
 
     public async Task DeletarPessoaUseCaseAsync(string idPessoa)
