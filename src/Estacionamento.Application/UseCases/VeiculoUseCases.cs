@@ -1,4 +1,5 @@
 using Estacionamento.Domain.Interfaces;
+using Estacionamento.Domain.Models.DTO;
 using Estacionamento.Domain.Models.Entities;
 using Estacionamento.Domain.Models.ViewModels;
 
@@ -33,25 +34,53 @@ public class VeiculoUseCases : IVeiculoUseCases
         return veiculosResponse;
     }
 
-    public async Task<Veiculo?> ObterVeiculoUseCaseAsync(int idVeiculo)
-        => await _veiculoRepository.ObterVeiculoRepositoryAsync(idVeiculo);
-
-    public async Task<Veiculo> AdicionarVeiculoUseCaseAsync(Veiculo veiculo)
+    public async Task<VeiculoViewModel?> ObterVeiculoUseCaseAsync(int idVeiculo)
     {
-        return await _veiculoRepository.AdicionarVeiculoRepositoryAsync(veiculo);
+        var veiculo = await _veiculoRepository.ObterVeiculoRepositoryAsync(idVeiculo);
+        return new VeiculoViewModel
+                    (
+                        veiculo!.IdVeiculo,
+                        veiculo.Marca,
+                        veiculo.Modelo,
+                        veiculo.Cor,
+                        veiculo.Placa,
+                        veiculo.IdPessoa,
+                        veiculo.Pessoa!.Nome,
+                        veiculo.Pessoa.SobreNome
+                    );
     }
 
-    public async Task AtualizarVeiculoUseCaseAsync(Veiculo veiculo)
+    public async Task AdicionarVeiculoUseCaseAsync(VeiculoInsertDTO veiculoDto)
     {
-        var consultaVeiculo = ObterVeiculoUseCaseAsync(veiculo.IdVeiculo).Result;
-        if (consultaVeiculo is null) return;
+        var veiculo = new Veiculo
+        (
+            veiculoDto.Marca,
+            veiculoDto.Modelo,
+            veiculoDto.Cor,
+            veiculoDto.Placa,
+            veiculoDto.IdPessoa
+        );
+
+        await _veiculoRepository.AdicionarVeiculoRepositoryAsync(veiculo);
+    }
+
+    public async Task AtualizarVeiculoUseCaseAsync(VeiculoUpdateDTO veiculoAtualizado)
+    {
+        var veiculo = await _veiculoRepository.ObterVeiculoRepositoryAsync(veiculoAtualizado.IdVeiculo);
+        if (veiculo is null) return;
+
+        // A Refatorar
+        veiculo.Marca = veiculoAtualizado.Marca;
+        veiculo.Modelo = veiculoAtualizado.Modelo;
+        veiculo.Cor = veiculoAtualizado.Cor;
+        veiculo.Placa = veiculoAtualizado.Placa;
 
         await _veiculoRepository.AtualizarVeiculoRepositoryAsync(veiculo);
     }
 
     public async Task DeletarVeiculoUseCaseAsync(int idVeiculo)
     {
-        var resultadoVeiculo = ObterVeiculoUseCaseAsync(idVeiculo).Result;
+        var resultadoVeiculo = await _veiculoRepository.ObterVeiculoRepositoryAsync(idVeiculo);
         if (resultadoVeiculo is null) return;
         await _veiculoRepository.DeletarVeiculoRepositoryAsync(resultadoVeiculo);
     }

@@ -8,6 +8,7 @@ public class Veiculo(string marca, string modelo, string cor, string placa, stri
 {
     [Key]
     [Column("id_veiculo")]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int IdVeiculo { get; set; }
 
     [Required(ErrorMessage = "Informe o nome da marca do carro")]
@@ -26,8 +27,10 @@ public class Veiculo(string marca, string modelo, string cor, string placa, stri
     [Column("placa")]
     public string Placa { get; set; } = placa;
 
+    [Required(ErrorMessage = "Informe o id da pessoa")]
     [Column("id_pessoa")]
     public string IdPessoa { get; set; } = idPessoa;
-    
-    public Pessoa Pessoa { get; set; } = null!;
+
+    [NotMapped]
+    public Pessoa? Pessoa { get; set; }
 }

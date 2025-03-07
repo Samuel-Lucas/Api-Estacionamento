@@ -32,7 +32,7 @@ public class VeiculoRepository : IVeiculoRepository
                                             p.Cor,
                                             p.Placa,
                                             p.IdPessoa,
-                                            p.Pessoa.Nome,
+                                            p.Pessoa!.Nome,
                                             p.Pessoa.SobreNome
                                         ));
           
@@ -59,14 +59,12 @@ public class VeiculoRepository : IVeiculoRepository
         }
     }
 
-    public async Task<Veiculo> AdicionarVeiculoRepositoryAsync(Veiculo veiculo)
+    public async Task AdicionarVeiculoRepositoryAsync(Veiculo veiculo)
     {
         try
         {            
-            await _context.Veiculos!.AddAsync(veiculo);
+            _context.Veiculos.Add(veiculo);
             await _context.SaveChangesAsync();
-
-            return veiculo;
         } catch (Exception e)
         {
             throw new Exception($"Ocorreu um erro ao cadastrar o veiculo: {e.Message}");
@@ -77,15 +75,8 @@ public class VeiculoRepository : IVeiculoRepository
     {
         try
         {
-            if (veiculo is not null)
-            {
-                _context.Entry(veiculo).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
-            }
-            else
-            {
-                throw new ArgumentNullException("Dados inválidos para alteração do veiculo...");
-            }
+            _context.Entry(veiculo).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         } catch (Exception e)
         {
             throw new Exception($"Ocorre um erro ao buscar veiculo de id {veiculo.IdVeiculo}: {e.Message}");
