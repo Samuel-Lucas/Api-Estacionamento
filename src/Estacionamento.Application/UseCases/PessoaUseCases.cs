@@ -17,7 +17,7 @@ public class PessoaUseCases : IPessoaUseCases
     public async Task<IEnumerable<PessoaViewModel>> ObterPessoasUseCaseAsync()
     {
         var pessoas = await _pessoaRepository.ObterPessoasRepositoryAsync();
-        var pessoaViewModelList = pessoas.Adapt<IList<PessoaViewModel>>();
+        var pessoaViewModelList = pessoas.Adapt<IEnumerable<PessoaViewModel>>();
 
         return pessoaViewModelList;
     }

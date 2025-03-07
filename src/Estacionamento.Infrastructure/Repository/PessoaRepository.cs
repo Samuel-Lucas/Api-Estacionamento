@@ -84,7 +84,7 @@ public class PessoaRepository : IPessoaRepository
         }
         catch (Exception e)
         {
-            throw new Exception($"Erro ao tentar remover pessoade id {pessoa.IdPessoa}, {e.Message}");
+            throw new Exception($"Erro ao tentar remover pessoa de id {pessoa.IdPessoa}, {e.Message}");
         }
     }
 

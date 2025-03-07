@@ -17,7 +17,8 @@ public class AppDbContext : DbContext
         builder.Entity<Veiculo>()
             .HasOne(v => v.Pessoa)
             .WithMany(p => p.Veiculos)
-            .HasForeignKey(v => v.IdPessoa);
+            .HasForeignKey(v => v.IdPessoa)
+            .OnDelete(DeleteBehavior.Cascade);
             
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
