@@ -10,5 +10,5 @@ public interface IVeiculoUseCases
     Task<VeiculoViewModel?> ObterVeiculoUseCaseAsync(int idVeiculo);
     Task AdicionarVeiculoUseCaseAsync(VeiculoInsertDTO veiculo);
     Task DeletarVeiculoUseCaseAsync(int idVeiculo);
-    Task AtualizarVeiculoUseCaseAsync(Veiculo veiculo);
+    Task AtualizarVeiculoUseCaseAsync(VeiculoUpdateDTO veiculo);
 }

@@ -55,7 +55,7 @@ public class VeiculoController : ControllerBase
     [ProducesResponseType((204))]
     [ProducesResponseType((400))]
     [ProducesResponseType((401))]
-    public async Task<IActionResult> Put([FromBody] Veiculo vehicle)
+    public async Task<IActionResult> Put([FromBody] VeiculoUpdateDTO vehicle)
     {
         if (vehicle is null) return BadRequest();
         await _veiculoUseCases.AtualizarVeiculoUseCaseAsync(vehicle);

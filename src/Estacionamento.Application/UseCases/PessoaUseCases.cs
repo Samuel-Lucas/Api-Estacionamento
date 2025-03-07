@@ -1,6 +1,5 @@
 using Estacionamento.Domain.Interfaces;
 using Estacionamento.Domain.Models.DTO;
-using Estacionamento.Domain.Models.Entities;
 using Estacionamento.Domain.Models.ViewModels;
 
 namespace Estacionamento.Application.UseCases;

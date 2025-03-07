@@ -64,10 +64,16 @@ public class VeiculoUseCases : IVeiculoUseCases
         await _veiculoRepository.AdicionarVeiculoRepositoryAsync(veiculo);
     }
 
-    public async Task AtualizarVeiculoUseCaseAsync(Veiculo veiculo)
+    public async Task AtualizarVeiculoUseCaseAsync(VeiculoUpdateDTO veiculoAtualizado)
     {
-        var consultaVeiculo = ObterVeiculoUseCaseAsync(veiculo.IdVeiculo).Result;
-        if (consultaVeiculo is null) return;
+        var veiculo = await _veiculoRepository.ObterVeiculoRepositoryAsync(veiculoAtualizado.IdVeiculo);
+        if (veiculo is null) return;
+
+        // A Refatorar
+        veiculo.Marca = veiculoAtualizado.Marca;
+        veiculo.Modelo = veiculoAtualizado.Modelo;
+        veiculo.Cor = veiculoAtualizado.Cor;
+        veiculo.Placa = veiculoAtualizado.Placa;
 
         await _veiculoRepository.AtualizarVeiculoRepositoryAsync(veiculo);
     }
