@@ -1,4 +1,5 @@
 using Estacionamento.Domain.Interfaces;
+using Estacionamento.Domain.Models.DTO;
 using Estacionamento.Domain.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,32 +41,34 @@ public class VeiculoController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType((200))]
+    [ProducesResponseType((201))]
     [ProducesResponseType((400))]
     [ProducesResponseType((401))]
-    public IActionResult Post([FromBody] Veiculo vehicle)
+    public async Task<IActionResult> Post([FromBody] VeiculoInsertDTO vehicle)
     {
         if (vehicle is null) return BadRequest();
-        return Ok(_veiculoUseCases.AdicionarVeiculoUseCaseAsync(vehicle));
+        await _veiculoUseCases.AdicionarVeiculoUseCaseAsync(vehicle);
+        return Created();
     }
 
     [HttpPut]
-    [ProducesResponseType((200))]
+    [ProducesResponseType((204))]
     [ProducesResponseType((400))]
     [ProducesResponseType((401))]
-    public IActionResult Put([FromBody] Veiculo vehicle)
+    public async Task<IActionResult> Put([FromBody] Veiculo vehicle)
     {
         if (vehicle is null) return BadRequest();
-        return Ok(_veiculoUseCases.AtualizarVeiculoUseCaseAsync(vehicle));
+        await _veiculoUseCases.AtualizarVeiculoUseCaseAsync(vehicle);
+        return NoContent();
     }
 
     [HttpDelete("{id}")]
     [ProducesResponseType((204))]
     [ProducesResponseType((400))]
     [ProducesResponseType((401))]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        _veiculoUseCases.DeletarVeiculoUseCaseAsync(id);
+        await _veiculoUseCases.DeletarVeiculoUseCaseAsync(id);
         return NoContent();
     }
 }

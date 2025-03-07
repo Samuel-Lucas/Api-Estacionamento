@@ -1,4 +1,5 @@
 using Estacionamento.Domain.Interfaces;
+using Estacionamento.Domain.Models.DTO;
 using Estacionamento.Domain.Models.Entities;
 using Estacionamento.Domain.Models.ViewModels;
 
@@ -36,9 +37,18 @@ public class VeiculoUseCases : IVeiculoUseCases
     public async Task<Veiculo?> ObterVeiculoUseCaseAsync(int idVeiculo)
         => await _veiculoRepository.ObterVeiculoRepositoryAsync(idVeiculo);
 
-    public async Task<Veiculo> AdicionarVeiculoUseCaseAsync(Veiculo veiculo)
+    public async Task AdicionarVeiculoUseCaseAsync(VeiculoInsertDTO veiculoDto)
     {
-        return await _veiculoRepository.AdicionarVeiculoRepositoryAsync(veiculo);
+        var veiculo = new Veiculo
+        (
+            veiculoDto.Marca,
+            veiculoDto.Modelo,
+            veiculoDto.Cor,
+            veiculoDto.Placa,
+            veiculoDto.IdPessoa
+        );
+
+        await _veiculoRepository.AdicionarVeiculoRepositoryAsync(veiculo);
     }
 
     public async Task AtualizarVeiculoUseCaseAsync(Veiculo veiculo)
