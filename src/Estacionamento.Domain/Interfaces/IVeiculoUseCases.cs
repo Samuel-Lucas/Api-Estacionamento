@@ -7,7 +7,7 @@ namespace Estacionamento.Domain.Interfaces;
 public interface IVeiculoUseCases
 {
     Task<IEnumerable<VeiculoViewModel>> ObterVeiculosUseCaseAsync();
-    Task<Veiculo?> ObterVeiculoUseCaseAsync(int idVeiculo);
+    Task<VeiculoViewModel?> ObterVeiculoUseCaseAsync(int idVeiculo);
     Task AdicionarVeiculoUseCaseAsync(VeiculoInsertDTO veiculo);
     Task DeletarVeiculoUseCaseAsync(int idVeiculo);
     Task AtualizarVeiculoUseCaseAsync(Veiculo veiculo);

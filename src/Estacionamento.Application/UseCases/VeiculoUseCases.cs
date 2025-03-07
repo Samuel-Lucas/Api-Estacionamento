@@ -34,8 +34,21 @@ public class VeiculoUseCases : IVeiculoUseCases
         return veiculosResponse;
     }
 
-    public async Task<Veiculo?> ObterVeiculoUseCaseAsync(int idVeiculo)
-        => await _veiculoRepository.ObterVeiculoRepositoryAsync(idVeiculo);
+    public async Task<VeiculoViewModel?> ObterVeiculoUseCaseAsync(int idVeiculo)
+    {
+        var veiculo = await _veiculoRepository.ObterVeiculoRepositoryAsync(idVeiculo);
+        return new VeiculoViewModel
+                    (
+                        veiculo!.IdVeiculo,
+                        veiculo.Marca,
+                        veiculo.Modelo,
+                        veiculo.Cor,
+                        veiculo.Placa,
+                        veiculo.IdPessoa,
+                        veiculo.Pessoa!.Nome,
+                        veiculo.Pessoa.SobreNome
+                    );
+    }
 
     public async Task AdicionarVeiculoUseCaseAsync(VeiculoInsertDTO veiculoDto)
     {
@@ -61,7 +74,7 @@ public class VeiculoUseCases : IVeiculoUseCases
 
     public async Task DeletarVeiculoUseCaseAsync(int idVeiculo)
     {
-        var resultadoVeiculo = ObterVeiculoUseCaseAsync(idVeiculo).Result;
+        var resultadoVeiculo = await _veiculoRepository.ObterVeiculoRepositoryAsync(idVeiculo);
         if (resultadoVeiculo is null) return;
         await _veiculoRepository.DeletarVeiculoRepositoryAsync(resultadoVeiculo);
     }
