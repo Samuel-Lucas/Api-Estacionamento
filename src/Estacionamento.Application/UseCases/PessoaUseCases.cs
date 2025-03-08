@@ -1,6 +1,7 @@
 using Estacionamento.Domain.Interfaces;
 using Estacionamento.Domain.Models.DTO;
 using Estacionamento.Domain.Models.ViewModels;
+using Mapster;
 
 namespace Estacionamento.Application.UseCases;
 
@@ -15,14 +16,8 @@ public class PessoaUseCases : IPessoaUseCases
 
     public async Task<IEnumerable<PessoaViewModel>> ObterPessoasUseCaseAsync()
     {
-        var pessoaViewModelList = new List<PessoaViewModel>();
         var pessoas = await _pessoaRepository.ObterPessoasRepositoryAsync();
-
-        foreach (var pessoa in pessoas)
-        {
-            var pessoaViewModel = new PessoaViewModel(pessoa.IdPessoa, pessoa.Nome, pessoa.SobreNome, pessoa.Email, pessoa.Telefone);
-            pessoaViewModelList.Add(pessoaViewModel);
-        }
+        var pessoaViewModelList = pessoas.Adapt<IEnumerable<PessoaViewModel>>();
 
         return pessoaViewModelList;
     }
@@ -30,8 +25,7 @@ public class PessoaUseCases : IPessoaUseCases
     public async Task<PessoaViewModel?> ObterPessoaUseCaseAsync(string id)
     {
         var pessoa = await _pessoaRepository.ObterPessoaRepositoryAsync(id);
-
-        return new PessoaViewModel(pessoa!.IdPessoa, pessoa.Nome, pessoa.SobreNome, pessoa.Email, pessoa.Telefone);
+        return pessoa.Adapt<PessoaViewModel>();
     }
 
     public async Task AdicionarPessoaUseCaseAsync(PessoaDTO pessoa)
