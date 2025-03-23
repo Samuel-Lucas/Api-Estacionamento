@@ -79,7 +79,7 @@ public class VeiculoRepository : IVeiculoRepository
             await _context.SaveChangesAsync();
         } catch (Exception e)
         {
-            throw new Exception($"Ocorre um erro ao buscar veiculo de id {veiculo.IdVeiculo}: {e.Message}");
+            throw new Exception($"Ocorre um erro ao atualizar veiculo de id {veiculo.IdVeiculo}: {e.Message}");
         }
     }
 
