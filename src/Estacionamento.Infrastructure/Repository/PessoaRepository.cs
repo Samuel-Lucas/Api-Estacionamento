@@ -24,7 +24,7 @@ public class PessoaRepository : IPessoaRepository
             return pessoas;
         } catch (Exception e)
         {
-            throw new Exception($"Ocorre um erro ao buscar pessoas cadastradas: {e.Message}");
+            throw new Exception($"Ocorreu um erro ao buscar pessoas cadastradas: {e.Message}");
         }
     }
 
@@ -36,7 +36,7 @@ public class PessoaRepository : IPessoaRepository
             return pessoa!;
         } catch (Exception e)
         {
-            throw new Exception($"Ocorre um erro ao buscar pessoa de id {id}: {e.Message}");
+            throw new Exception($"Ocorreu um erro ao buscar pessoa de id {id}: {e.Message}");
         }
     }
 
@@ -58,7 +58,7 @@ public class PessoaRepository : IPessoaRepository
             await _context.SaveChangesAsync();
         } catch (Exception e)
         {
-            throw new Exception($"Ocorre um erro ao cadastrar a pessoa: {e.Message}");
+            throw new Exception($"Ocorreu um erro ao cadastrar a pessoa: {e.Message}");
         }
     }
 
@@ -71,7 +71,7 @@ public class PessoaRepository : IPessoaRepository
         }
         catch (Exception e)
         {
-            throw new Exception($"Ocorre um erro ao buscar pessoa de id {pessoa.IdPessoa}, {e.Message}");
+            throw new Exception($"Ocorreu um erro ao buscar pessoa de id {pessoa.IdPessoa}, {e.Message}");
         }
     }
 
