@@ -39,7 +39,7 @@ public class VeiculoRepository : IVeiculoRepository
             return veiculosViewModel;
         } catch (Exception e)
         {
-            throw new Exception($"Ocorre um erro ao buscar veiculos cadastrados: {e.Message}");
+            throw new Exception($"Ocorreu um erro ao buscar veiculos cadastrados: {e.Message}");
         }
     }
 
@@ -55,7 +55,7 @@ public class VeiculoRepository : IVeiculoRepository
             return veiculo!;
         } catch (Exception e)
         {
-            throw new Exception($"Ocorre um erro ao buscar veiculo de id {idVeiculo}: {e.Message}");
+            throw new Exception($"Ocorreu um erro ao buscar veiculo de id {idVeiculo}: {e.Message}");
         }
     }
 
@@ -79,7 +79,7 @@ public class VeiculoRepository : IVeiculoRepository
             await _context.SaveChangesAsync();
         } catch (Exception e)
         {
-            throw new Exception($"Ocorre um erro ao atualizar veiculo de id {veiculo.IdVeiculo}: {e.Message}");
+            throw new Exception($"Ocorreu um erro ao atualizar veiculo de id {veiculo.IdVeiculo}: {e.Message}");
         }
     }
 
@@ -91,7 +91,7 @@ public class VeiculoRepository : IVeiculoRepository
             await _context.SaveChangesAsync();
         } catch (Exception e)
         {
-            throw new Exception($"Ocorre um erro ao excluir veiculo de id = {veiculo.IdVeiculo}: {e.Message}");
+            throw new Exception($"Ocorreu um erro ao excluir veiculo de id = {veiculo.IdVeiculo}: {e.Message}");
         }
     }
 }
