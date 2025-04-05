@@ -2,16 +2,19 @@ using Estacionamento.Domain.Interfaces;
 using Estacionamento.Domain.Models.DTO;
 using Estacionamento.Domain.Models.ViewModels;
 using Mapster;
+using Microsoft.Extensions.Logging;
 
 namespace Estacionamento.Application.UseCases;
 
 public class PessoaUseCases : IPessoaUseCases
 {
     private readonly IPessoaRepository _pessoaRepository;
+    private readonly ILogger<PessoaUseCases> _logger;
 
-    public PessoaUseCases(IPessoaRepository pessoaRepository)
+    public PessoaUseCases(IPessoaRepository pessoaRepository, ILogger<PessoaUseCases> logger)
     {
         _pessoaRepository = pessoaRepository;
+        _logger = logger;
     }
 
     public async Task<IEnumerable<PessoaViewModel>> ObterPessoasUseCaseAsync()
@@ -29,7 +32,15 @@ public class PessoaUseCases : IPessoaUseCases
     }
 
     public async Task AdicionarPessoaUseCaseAsync(PessoaDTO pessoa)
-        => await _pessoaRepository.AdicionarPessoaRepositoryAsync(pessoa);
+    {
+        if (await _pessoaRepository.IsExistingEmail(pessoa.Email))
+        {
+            _logger.LogInformation($"{pessoa.Email} já cadastrado no site, informe outro email");
+            return;
+        }
+
+        await _pessoaRepository.AdicionarPessoaRepositoryAsync(pessoa);
+    }
 
     public async Task AtualizarPessoaUseCaseAsync(PessoaUpdateDTO pessoa)
     {

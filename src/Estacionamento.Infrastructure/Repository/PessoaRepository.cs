@@ -40,6 +40,26 @@ public class PessoaRepository : IPessoaRepository
         }
     }
 
+    public async Task<Pessoa?> ObterPessoaPorEmaileSenhaRepositoryAsync(string email, string senha)
+    {
+        try
+        {
+            var pessoa = await _context.Pessoas!
+                .FirstOrDefaultAsync(x => x.Email == email);
+            
+            if (pessoa is null)
+                return null!;
+
+            if (IsValidUser(senha, pessoa!.Senha))
+                return pessoa;
+            
+            return null!;
+        } catch (Exception e)
+        {
+            throw new Exception($"Ocorreu um erro ao buscar pessoa de email {email}: {e.Message}");
+        }
+    }
+
     public async Task AdicionarPessoaRepositoryAsync(PessoaDTO pessoa)
     {
         try
@@ -61,6 +81,9 @@ public class PessoaRepository : IPessoaRepository
             throw new Exception($"Ocorreu um erro ao cadastrar a pessoa: {e.Message}");
         }
     }
+
+    public async Task<bool> IsExistingEmail(string email)
+        => await _context.Pessoas.AnyAsync(x => x.Email == email);
 
     public async Task AtualizarPessoaRepositoryAsync(Pessoa pessoa)
     {
@@ -92,5 +115,13 @@ public class PessoaRepository : IPessoaRepository
     {
         var hasher = new PasswordHasher<object>();
         return hasher.HashPassword(null!, senha);
+    }
+
+    private bool IsValidUser(string senha, string storedHash)
+    {
+        var hasher = new PasswordHasher<object>();
+        var result = hasher.VerifyHashedPassword(null!, storedHash, senha);
+
+        return result == PasswordVerificationResult.Success;
     }
 }
