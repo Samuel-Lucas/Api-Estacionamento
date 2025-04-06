@@ -4,5 +4,6 @@ namespace Estacionamento.Domain.Interfaces;
 
 public interface IAuthenticationUseCases
 {
-    Task<Pessoa> SignInUser(User user);
+    Task<Pessoa> SignInUserAsync(User user);
+    string CreateJwToken(Pessoa pessoa);
 }

@@ -24,11 +24,20 @@ public class AuthController : ControllerBase
         if (user is null)
             return BadRequest("Dados do usuário não informado");
 
-        var result = await _authenticationUseCases.SignInUser(user);
+        var registeredUser = await _authenticationUseCases.SignInUserAsync(user);
 
-        if (result is null)
+        if (registeredUser is null)
             return NotFound("Usuário não cadastrado");
         
-        return Ok(new { Message = "Usuário autenticado" });
+        var jwtToken = _authenticationUseCases.CreateJwToken(registeredUser);
+        
+        return Ok
+        (
+            new 
+            {
+                Token = jwtToken,
+                Message = "Usuário autenticado"
+            }
+        );
     }
 }
