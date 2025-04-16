@@ -1,5 +1,6 @@
 using Estacionamento.Domain.Interfaces;
 using Estacionamento.Domain.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estacionamento.Api.Controllers;
@@ -18,6 +19,7 @@ public class PessoaController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Policy = "Bearer")]
     [ProducesResponseType((200))]
     [ProducesResponseType((204))]
     [ProducesResponseType((400))]
@@ -28,6 +30,7 @@ public class PessoaController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize(Policy = "Bearer")]
     [ProducesResponseType((200))]
     [ProducesResponseType((204))]
     [ProducesResponseType((400))]
@@ -53,6 +56,7 @@ public class PessoaController : ControllerBase
     }
 
     [HttpPut]
+    [Authorize(Policy = "Bearer")]
     [ProducesResponseType((204))]
     [ProducesResponseType((400))]
     [ProducesResponseType((401))]
@@ -65,6 +69,7 @@ public class PessoaController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Policy = "Bearer")]
     [ProducesResponseType((204))]
     [ProducesResponseType((400))]
     [ProducesResponseType((401))]

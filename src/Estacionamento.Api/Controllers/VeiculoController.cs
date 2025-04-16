@@ -1,10 +1,12 @@
 using Estacionamento.Domain.Interfaces;
 using Estacionamento.Domain.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Estacionamento.Api.Controllers;
 
 [ApiController]
+[Authorize(Policy = "Bearer")]
 [Route("api/[controller]/v1")]
 public class VeiculoController : ControllerBase
 {
