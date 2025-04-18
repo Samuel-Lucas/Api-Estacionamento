@@ -31,7 +31,7 @@ public class AuthenticationUseCases : IAuthenticationUseCases
             new Claim[]
             {
                 new Claim(ClaimTypes.NameIdentifier, pessoa.IdPessoa),
-                new Claim(ClaimTypes.Name, pessoa.Email),
+                new Claim(ClaimTypes.Name, pessoa.Nome),
                 new Claim(ClaimTypes.Role, pessoa.Role!)
             }
         );
