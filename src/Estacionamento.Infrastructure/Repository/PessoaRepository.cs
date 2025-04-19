@@ -20,7 +20,9 @@ public class PessoaRepository : IPessoaRepository
     {
         try
         {
-            var pessoas = await _context.Pessoas!.ToListAsync();
+            var pessoas = await _context.Pessoas!
+                                        .OrderBy(x => x.Nome.Substring(0, 1).ToUpper())
+                                        .ToListAsync();
             return pessoas;
         } catch (Exception e)
         {
