@@ -21,6 +21,7 @@ public class VeiculoRepository : IVeiculoRepository
         {
             var veiculos = await _context.Veiculos!
                                     .Include(p => p.Pessoa)
+                                    .OrderBy(v => v.IdVeiculo)
                                     .ToListAsync();
 
             var veiculosViewModel = veiculos
