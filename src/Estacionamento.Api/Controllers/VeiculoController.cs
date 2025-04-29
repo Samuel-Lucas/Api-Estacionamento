@@ -41,6 +41,16 @@ public class VeiculoController : ControllerBase
         return Ok(vehicle);
     }
 
+    [HttpGet("quantidade-veiculos")]
+    [ProducesResponseType((200))]
+    [ProducesResponseType((204))]
+    [ProducesResponseType((400))]
+    [ProducesResponseType((401))]
+    public async Task<IActionResult> GetVehicleQuantity()
+    {
+        return Ok(await _veiculoUseCases.ObterQuantidadeVeiculosCadastradosUseCaseAsync());
+    }
+
     [HttpPost]
     [ProducesResponseType((201))]
     [ProducesResponseType((400))]
