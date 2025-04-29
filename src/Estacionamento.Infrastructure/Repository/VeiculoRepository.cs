@@ -60,6 +60,18 @@ public class VeiculoRepository : IVeiculoRepository
         }
     }
 
+    public async Task<int> ObterQuantidadeVeiculosRepositoryAsync()
+    {
+        try
+        {
+            return await _context.Veiculos!.CountAsync();
+
+        } catch (Exception e)
+        {
+            throw new Exception($"Ocorreu um erro ao buscar quantidade de veiculos cadastrados: {e.Message}");
+        }
+    }
+
     public async Task AdicionarVeiculoRepositoryAsync(Veiculo veiculo)
     {
         try

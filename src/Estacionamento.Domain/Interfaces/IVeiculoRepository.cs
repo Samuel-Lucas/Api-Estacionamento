@@ -7,6 +7,7 @@ public interface IVeiculoRepository
 {
     Task<IEnumerable<VeiculoViewModel>> ObterVeiculosRepositoryAsync();
     Task<Veiculo?> ObterVeiculoRepositoryAsync(int idVeiculo);
+    Task<int> ObterQuantidadeVeiculosRepositoryAsync();
     Task AdicionarVeiculoRepositoryAsync(Veiculo veiculo);
     Task DeletarVeiculoRepositoryAsync(Veiculo veiculo);
     Task AtualizarVeiculoRepositoryAsync(Veiculo veiculo);

@@ -50,6 +50,10 @@ public class VeiculoUseCases : IVeiculoUseCases
                     );
     }
 
+    public async Task<int> ObterQuantidadeVeiculosCadastradosUseCaseAsync()
+        => await _veiculoRepository.ObterQuantidadeVeiculosRepositoryAsync();
+
+
     public async Task AdicionarVeiculoUseCaseAsync(VeiculoInsertDTO veiculoDto)
     {
         var veiculo = new Veiculo
