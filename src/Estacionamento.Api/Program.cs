@@ -39,7 +39,15 @@ builder.Services.AddSwaggerGen(options =>
 });
 builder.Services.AddLogging();
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration["ConnectionStrings:PostgreSql"]));
+{
+    var host     = Environment.GetEnvironmentVariable("DB_HOST") ?? "localhost";
+    var username = Environment.GetEnvironmentVariable("DB_USERNAME") ?? "postgres";
+    var password = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "postgres123";
+    var database = Environment.GetEnvironmentVariable("DB_DATABASE") ?? "postgres";
+
+    var connectionString = $"Host={host};Username={username};Password={password};Database={database}";
+    options.UseNpgsql(connectionString);
+});
 
 builder.Services.AddScoped<IPessoaUseCases, PessoaUseCases>();
 builder.Services.AddScoped<IVeiculoUseCases, VeiculoUseCases>();
@@ -82,11 +90,9 @@ builder.Services.AddAuthorization(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors("AllowAllOrigins");
 app.UseAuthentication();
