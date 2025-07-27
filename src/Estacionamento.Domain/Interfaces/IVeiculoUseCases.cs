@@ -9,7 +9,7 @@ public interface IVeiculoUseCases
     Task<IEnumerable<VeiculoViewModel>> ObterVeiculosUseCaseAsync();
     Task<VeiculoViewModel?> ObterVeiculoUseCaseAsync(int idVeiculo);
     Task<int> ObterQuantidadeVeiculosCadastradosUseCaseAsync();
-    Task AdicionarVeiculoUseCaseAsync(VeiculoInsertDTO veiculo);
+    Task<bool> AdicionarVeiculoUseCaseAsync(VeiculoInsertDTO veiculoDto);
     Task DeletarVeiculoUseCaseAsync(int idVeiculo);
     Task AtualizarVeiculoUseCaseAsync(VeiculoUpdateDTO veiculo);
 }
