@@ -43,6 +43,17 @@ public class VeiculoRepository : IVeiculoRepository
             throw new Exception($"Ocorreu um erro ao buscar veiculos cadastrados: {e.Message}");
         }
     }
+    
+    public async Task<bool> VerificaPessoaComVeiculoRepositoryAsync(string idPessoa)
+    {
+        try
+        {
+            return await _context.Veiculos.AnyAsync(x => x.IdPessoa == idPessoa);
+        } catch (Exception e)
+        {
+            throw new Exception($"Ocorreu um erro ao verificar pessoa com veiculo cadastrado: IdPessoa: {idPessoa}, Erro: {e.Message}");
+        }
+    }
 
     public async Task<Veiculo?> ObterVeiculoRepositoryAsync(int idVeiculo)
     {
@@ -54,7 +65,8 @@ public class VeiculoRepository : IVeiculoRepository
                                         .FirstOrDefaultAsync();
 
             return veiculo!;
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             throw new Exception($"Ocorreu um erro ao buscar veiculo de id {idVeiculo}: {e.Message}");
         }

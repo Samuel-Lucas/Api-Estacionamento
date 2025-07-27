@@ -2,16 +2,19 @@ using Estacionamento.Domain.Interfaces;
 using Estacionamento.Domain.Models.DTO;
 using Estacionamento.Domain.Models.Entities;
 using Estacionamento.Domain.Models.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace Estacionamento.Application.UseCases;
 
 public class VeiculoUseCases : IVeiculoUseCases
 {
     private readonly IVeiculoRepository _veiculoRepository;
+    private readonly ILogger<VeiculoUseCases> _logger;
 
-    public VeiculoUseCases(IVeiculoRepository veiculoRepository)
+    public VeiculoUseCases(IVeiculoRepository veiculoRepository, ILogger<VeiculoUseCases> logger)
     {
         _veiculoRepository = veiculoRepository;
+        _logger = logger;
     }
 
     public async Task<IEnumerable<VeiculoViewModel>> ObterVeiculosUseCaseAsync()
@@ -54,8 +57,14 @@ public class VeiculoUseCases : IVeiculoUseCases
         => await _veiculoRepository.ObterQuantidadeVeiculosRepositoryAsync();
 
 
-    public async Task AdicionarVeiculoUseCaseAsync(VeiculoInsertDTO veiculoDto)
+    public async Task<bool> AdicionarVeiculoUseCaseAsync(VeiculoInsertDTO veiculoDto)
     {
+        if (await _veiculoRepository.VerificaPessoaComVeiculoRepositoryAsync(veiculoDto.IdPessoa))
+        {
+            _logger.LogInformation("Usuário já tem um veículo cadastrado");
+            return false;
+        }
+
         var veiculo = new Veiculo
         (
             veiculoDto.Marca,
@@ -66,6 +75,7 @@ public class VeiculoUseCases : IVeiculoUseCases
         );
 
         await _veiculoRepository.AdicionarVeiculoRepositoryAsync(veiculo);
+        return true;
     }
 
     public async Task AtualizarVeiculoUseCaseAsync(VeiculoUpdateDTO veiculoAtualizado)

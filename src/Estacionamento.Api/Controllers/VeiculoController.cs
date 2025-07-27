@@ -58,8 +58,8 @@ public class VeiculoController : ControllerBase
     public async Task<IActionResult> Post([FromBody] VeiculoInsertDTO vehicle)
     {
         if (vehicle is null) return BadRequest();
-        await _veiculoUseCases.AdicionarVeiculoUseCaseAsync(vehicle);
-        return Created();
+        var result = await _veiculoUseCases.AdicionarVeiculoUseCaseAsync(vehicle);
+        return result ? Created() : BadRequest("Usuário já possui um veículo cadastrado");
     }
 
     [HttpPut]
